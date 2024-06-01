@@ -41,14 +41,36 @@ function Form() {
             setResultado(response.data);
             setError(null);
 
-            // Abrir una nueva ventana y mostrar el resultado
-            const newWindow = window.open('', '_blank');
+            const newWindow = window.open(`${URL_BASE}${endpoint}`, '_blank');
             if (newWindow) {
-                newWindow.document.write(`<h1>Resultado:</h1><p>${JSON.stringify(response.data)}</p>`);
+                newWindow.document.write(`
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f3f4f6;
+                                padding: 20px;
+                            }
+                            h1 {
+                                color: #333;
+                                margin-bottom: 10px;
+                            }
+                            p {
+                                color: #555;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Resultado:</h1>
+                        <p>${response.data && Object.keys(response.data).map(key => `<span>${key}: ${response.data[key]}</span>`).join('<br>')}</p>
+                    </body>
+                    </html>
+                `);
             } else {
                 setError('Error al abrir la nueva ventana');
             }
-            
+
         } catch (error) {
             console.error('Hubo un error al procesar la solicitud:', error);
             setError('Hubo un error al procesar la solicitud.');
