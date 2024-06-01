@@ -40,6 +40,15 @@ function Form() {
             });
             setResultado(response.data);
             setError(null);
+
+            // Abrir una nueva ventana y mostrar el resultado
+            const newWindow = window.open('', '_blank');
+            if (newWindow) {
+                newWindow.document.write(`<h1>Resultado:</h1><p>${JSON.stringify(response.data)}</p>`);
+            } else {
+                setError('Error al abrir la nueva ventana');
+            }
+            
         } catch (error) {
             console.error('Hubo un error al procesar la solicitud:', error);
             setError('Hubo un error al procesar la solicitud.');
